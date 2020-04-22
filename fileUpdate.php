@@ -1,6 +1,6 @@
 <!-- This is a code for image update using modal -->
-
-											<!-- FRONT END -->
+									
+<!-- FRONT END -->
 
  
 <form action="back.php" method="post" enctype="multipart/form-data">
@@ -16,9 +16,8 @@
 	<button type="submit" class="btn btn-theme" name="update_slider">Update Image</button>
 	</div>
 </form>
-       
-
-											<!-- BACK END -->
+      
+<!-- BACK END -->
 
 <?php 
 
