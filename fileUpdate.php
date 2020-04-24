@@ -1,45 +1,24 @@
-<!-- This is a code for image update using modal -->
-
-											<!-- FRONT END -->
-
- 
-<form action="back.php" method="post" enctype="multipart/form-data">
-		               
-	<div class="col-12">
-	    <b><label for="name">Image</label></b>
-	    <input type="file" name="image" id="image" class="form-control" required>
-	     <input type="hidden" name="id" id="id">
-	</div>
-	       
-	<div class="modal-footer">
-	<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-	<button type="submit" class="btn btn-theme" name="update_slider">Update Image</button>
-	</div>
-</form>
-       
-
-											<!-- BACK END -->
-
 <?php 
 
-if(isset($_POST['update_slider'])){
-			include 'config.php';
-		$id = $_POST['id'];
-		$image= $_FILES["image"]["name"];
+if(isset($_POST['file'])){
 
-		
-		//THIS code is use to delete previous image at particular id.
+			include 'config.php'; //phpmyadmin(database) connection 
+	
+			$id = $_POST['id'];
+			$image= $_FILES["image"]["name"];
+			
+			//THIS code is use to delete previous image at particular id.
 
-			$query = "SELECT * FROM `slider` WHERE `id` = '$id' ";
+			$query = "SELECT * FROM `file` WHERE `id` = '$id' ";
                        
 				$stmt=$conn->prepare($query);
 				$stmt->execute();
 				$result=$stmt->fetch();
-				$old_image=$result['image'];
-				$path = "../img/slider/$old_image";
+				$old_image=$result['image']; //
+				$path = "destFile/$old_image"; //
 				unlink($path);
 				//======== This code store image by changing name using time in number format. =======//
-			$target_dir = "../img/slider/";
+			$target_dir = "destFile/";
 			$temp = explode(".", $_FILES["image"]["name"]);
 			$img = round(microtime(true)) . '.' . end($temp);
 			$target_file = $target_dir . $img;
@@ -76,16 +55,16 @@ if(isset($_POST['update_slider'])){
 			    }
 			}
 
-			$query = "UPDATE `slider` SET `image`='$img' WHERE `id` ='$id'";
+			$query = "UPDATE `file` SET `image`='$img' WHERE `id` ='$id'";
 	
 				 $stmt=$conn->prepare($query);
 				 $res=$stmt->execute();
 
 				if($res){
-					header('location:index.php');
+					header('location:index.php?q=Sucess');
 						}
 				else{
-					header('location:index.php');
+					header('location:index.php?q=error');
 				}
 		}
  ?>
