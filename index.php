@@ -6,11 +6,16 @@
 	<title>File UpLoad</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js" integrity="sha256-jfr3oM7h2TWPi2Q0O0vPuRh+pc0eSfWfpZ2nHXt8tFQ=" crossorigin="anonymous"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->	
+
 	 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
- 
+ 	
+ 	<link rel="jquery" href="https://code.jquery.com/jquery-git.slim.min.js">
+
 </head>
 <body>
 	
@@ -55,8 +60,8 @@
 						<td><?php echo $id; $id++;?></td>
 						<td><?php echo $key['image'];?></td>
 						<td><img src="destFile/<?php echo $key['image'];?>" style="height: 5rem" class="img" ></td>
-						<td><a class="btn btn-danger m-2" href="back.php?id=<?php echo $key['id'];?>" name="deleteFile">Delete</a></td>
-						<td><a class="btn btn-primary m-2" href="#" name="update-file" data-toggle="modal" data-target="#update_file" onclick="sendUpdate(<?php echo $key['id'];?>)">Update</a></td>						
+						<td><a class="btn btn-danger m-2" href="back.php?id=<?php echo $key['file_id'];?>" name="deleteFile">Delete</a></td>
+						<td><a class="btn btn-primary m-2" href="back.php?updateid=<?php echo $key['file_id'];?>" name="update-file" data-toggle="modal" data-target="#updateFile" id="updateid">Update</a></td>
 					</tr>
 					<?php } ?>
 				</tbody>			
@@ -81,7 +86,7 @@
 						<div class="col-12">
 							<b><label for="name">Image</label></b>
 							<input type="file" name="image" id="image" class="form-control" required>
-							<input type="hidden" name="id" id="id">
+							
 						</div>
                     </div><br>
                     <div class="form-row">
@@ -94,7 +99,7 @@
     </div>
 </div>
 
-<div id="update_file" class="modal fade" role="dialog" >
+<div id="updateFile" class="modal fade" role="dialog" >
     <div class="modal-dialog modal-lg" role="content">
         <div class="modal-content">
             <div class="modal-header">
@@ -107,7 +112,8 @@
 						<div class="col-12">
 							<b><label for="name">Image</label></b>
 							<input type="file" name="image" id="image" class="form-control" required>
-							<input type="text" name="id-file" id="id">
+							<input type="text" name="fileid" id="fileid">
+							
 						</div>
                     </div><br>
                     <div class="form-row">
@@ -120,20 +126,22 @@
     </div>
 </div>
 
-<script type="text/javascript">
-	function sendUpdate(id) {
-		
+<script>
+    function sendUpdate(id) {
       $.ajax({
         url: "back.php",
         method: "POST",
-        data: { id:id, update: "update_file" },
+        data: { id:id, update:"update_file" },
         success: function(result) {
           var data = JSON.parse(result)
-          $("#id").val(data['id'])
+          $("#fileid").val(data['file_id']);
+          $("#name-image").val(data['image']);
+
           }
       });
     }
-</script>
+
+  </script>
 
 </body>
 </html>

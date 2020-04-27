@@ -55,7 +55,7 @@ if (isset($_GET['id'])) {
 		$id = $_GET['id'];
 		include 'config.php'; //phpmyadmin(database) connection 	
 
-		$query = "SELECT * FROM `file` WHERE `id` = $id ";
+		$query = "SELECT * FROM `file` WHERE `file_id` = $id ";
 		       
 		$stmt=$conn->prepare($query);
 		$stmt->execute();
@@ -64,7 +64,7 @@ if (isset($_GET['id'])) {
 		$path = "destFile/$old_image"; 
 		unlink($path);
 
-		$query1 = "DELETE FROM `file` WHERE `id` = $id";
+		$query1 = "DELETE FROM `file` WHERE `file_id` = $id";
 		$stmt1=$conn->prepare($query1);
 		$stmt1->execute();
 
@@ -150,12 +150,11 @@ if(isset($_POST['update'])){
 
 				if(isset($_POST['id']))
 				{
-					$id = $_POST['id'];
- 
-					$query = "SELECT * FROM `file` WHERE `id` = $id";
+					$id = $_POST['id']; 
+					$query = "SELECT * FROM `file` WHERE `file_id` = $id";
 					 $stmt=$conn->prepare($query);
 			         $stmt->execute();
-			         $row=$stmt->fetchAll();
+			         $row=$stmt->fetch();
 	                 $conn=null;
 					
 					echo json_encode($row);
@@ -164,6 +163,12 @@ if(isset($_POST['update'])){
 		}
 				
 	}
+
+if (isset($_GET['updateid'])) {
+		$id = $_GET['updateid'];
+
+		header('location:index.php?updateid='.$id);
+	}	
 
 
   ?>
